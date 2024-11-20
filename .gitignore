@@ -1,0 +1,35 @@
+# Python-related files
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.env
+.vscode/
+.venv/
+ 
+# Temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Captured and processed images
+captured_images/
+processed_images/
+output/
+
+#My personal settings and notes
+/settings.py
+/crd702projectnotes
+
+#Temp
+/capture.py
+/metadata.py
+/processing.py
+
+  git config --global user.email "hmkinsler@gmail.com"
+  git config --global user.name "Haley Kinsler"

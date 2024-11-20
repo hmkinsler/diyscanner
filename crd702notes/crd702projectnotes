@@ -1,0 +1,35 @@
+book_scanner_project/
+│
+├── main.py                  # Entry point of your application
+├── requirements.txt         # Python dependencies
+├── README.md                # Project documentation
+├── LICENSE                  # License for your project
+├── .gitignore               # Files to exclude from GitHub
+│
+├── config/                  # Configuration files
+│   └── settings.py          # Adjustable settings for the project
+│
+├── src/                     # Source code
+│   ├── __init__.py          # Marks this directory as a Python module
+│   ├── capture.py           # Handles image capture logic
+│   ├── processing.py        # Image processing functions
+│   ├── metadata.py          # Metadata handling (EXIF, watermarks, etc.)
+│   ├── utils.py             # Reusable utility functions
+│   ├── pdf_generator.py     # Logic for creating PDFs
+│
+├── tests/                   # Unit tests for your project
+│   ├── __init__.py
+│   ├── test_capture.py
+│   ├── test_processing.py
+│   └── test_pdf_generator.py
+│
+└── examples/                # Example scripts or workflows
+    └── demo_workflow.py     # Demonstrates how to use your project
+
+
+Workflow Integration
+
+1.) Capture Images: Use DigiCamControl or manual image capture.
+2.) Process Images: Run the Python script to crop, enhance, and organize.
+3.) Combine Images: Merge pages or generate PDFs.
+4.) Extract Text (Optional): Use OCR for searchable PDFs or text exports.
