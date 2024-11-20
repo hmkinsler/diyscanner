@@ -30,6 +30,3 @@ output/
 /capture.py
 /metadata.py
 /processing.py
-
-  git config --global user.email "hmkinsler@gmail.com"
-  git config --global user.name "Haley Kinsler"

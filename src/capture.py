@@ -18,7 +18,7 @@ def capture_images(output_dir, filename_pattern="image_{:03d}.jpg"):
         os.makedirs(output_dir)
 
     # Simulate capturing number of images
-    for i in range(1, 3):
+    for i in range(1, 5):
         filename = filename_pattern.format(i)
         output_path = os.path.join(output_dir, filename)
 
