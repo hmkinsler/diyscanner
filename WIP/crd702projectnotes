@@ -1,3 +1,12 @@
+Workflow Integration
+1.) Capture Images: Use DigiCamControl or manual image capture.
+2.) Process Images: Run the Python script to crop, enhance, and organize.
+3.) Combine Images: Merge pages or generate PDFs.
+4.) Extract Text (Optional): Use OCR for searchable PDFs or text exports.
+
+----------------------------------------------------------
+
+Scanning Workflow Directory
 book_scanner_project/
 │
 ├── main.py                  # Entry point of your application
@@ -26,10 +35,22 @@ book_scanner_project/
 └── examples/                # Example scripts or workflows
     └── demo_workflow.py     # Demonstrates how to use your project
 
+----------------------------------------------------------
 
-Workflow Integration
+GUI Directory Structure
+diyscanner/
+├── config/
+│   ├── config.py
+├── src/
+│   ├── capture.py
+│   ├── processing.py
+│   ├── pdfgenerator.py
+├── gui/
+│   ├── __init__.py
+│   ├── capture_gui.py
+│   ├── processing_gui.py
+│   ├── pdf_gui.py
+│   ├── main_gui.py
+├── main.py
 
-1.) Capture Images: Use DigiCamControl or manual image capture.
-2.) Process Images: Run the Python script to crop, enhance, and organize.
-3.) Combine Images: Merge pages or generate PDFs.
-4.) Extract Text (Optional): Use OCR for searchable PDFs or text exports.
+----------------------------------------------------------

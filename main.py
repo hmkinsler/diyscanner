@@ -1,23 +1,28 @@
 from src.capture import capture_images
 from src.processing import process_images
-from src.pdfgenerator import create_pdf
-from config.settings import CAPTURED_DIR, PROCESSED_DIR, OUTPUT_DIR
+from src.pdfgenerator import create_pdf_with_ocr
+from config.config import config
 
-def main():
-    # Step 1: Capture images
-    print("Starting image capture...")
-    capture_images(CAPTURED_DIR, "page_{:03d}.jpg")  # Pass directory and filename pattern
-    print(f"Images captured and saved to {CAPTURED_DIR}\n")
+def start_workflow():
+    """Run the complete workflow: capture, process, and generate PDF."""
+    print("Starting workflow...")
 
-    # Step 2: Process images
-    print("Starting image processing...")
-    process_images(CAPTURED_DIR, PROCESSED_DIR)
-    print(f"Images processed and saved to {PROCESSED_DIR}\n")
+    # Step 1: Capture Images
+    print("Capturing images...")
+    capture_images(config)
 
-    # Step 3: Generate PDF
+    # Step 2: Process Images
+    print("Processing images...")
+    process_images(
+        config["capture"]["save_location"],
+        config["processing"]["save_location"]
+    )
+
+    # Step 3: Generate PDF with OCR
     print("Generating PDF...")
-    create_pdf(PROCESSED_DIR, f"{OUTPUT_DIR}/scanned_book.pdf")
-    print(f"PDF created and saved to {OUTPUT_DIR}/scanned_book.pdf\n")
+    create_pdf_with_ocr(
+        config["processing"]["save_location"],
+        f"{config['pdf']['output_location']}/scanned_book.pdf"
+    )
 
-if __name__ == "__main__":
-    main()
+    print("Workflow completed successfully!")
