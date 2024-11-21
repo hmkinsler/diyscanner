@@ -1,32 +1,40 @@
-import tkinter as tk
-from tkinter import filedialog, messagebox
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from tkinter import messagebox
 from config.config import config
 
-def pdf_settings_window(root):
-    def save_settings():
-        try:
-            config["pdf"]["ocr_enabled"] = ocr_var.get() == "1"
-            config["pdf"]["output_location"] = output_location_var.get()
-            messagebox.showinfo("Success", "PDF settings saved successfully!")
-            window.destroy()
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to save settings: {e}")
 
-    window = tk.Toplevel(root)
-    window.title("PDF Settings")
+def render_pdf_settings(content_frame):
+    """Render PDF Settings in the provided content frame."""
+    # Clear the content frame
+    for widget in content_frame.winfo_children():
+        widget.destroy()
 
-    ocr_var = tk.StringVar(value="1" if config["pdf"].get("ocr_enabled", True) else "0")
-    output_location_var = tk.StringVar(value=config["pdf"].get("output_location", "./output"))
+    ttk.Label(content_frame, text="PDF Settings", font=("TkDefaultFont", 16, 'bold')).pack(pady=10)
 
-    tk.Label(window, text="Enable OCR:").pack()
-    tk.Checkbutton(window, variable=ocr_var, onvalue="1", offvalue="0").pack()
+    # OCR Enabled
+    ocr_var = ttk.BooleanVar(value=config["pdf"]["ocr_enabled"])
+    ttk.Checkbutton(content_frame, text="Enable OCR", variable=ocr_var).pack(anchor=W, padx=10, pady=5)
 
-    tk.Label(window, text="Output Location:").pack()
-    tk.Entry(window, textvariable=output_location_var).pack()
-    tk.Button(window, text="Browse", command=lambda: browse_directory(output_location_var)).pack()
+    # Output Location
+    ttk.Label(content_frame, text="Output Location:").pack(anchor=W, padx=10)
+    output_location_var = ttk.StringVar(value=config["pdf"]["output_location"])
+    ttk.Entry(content_frame, textvariable=output_location_var).pack(padx=10, pady=5)
 
-    tk.Button(window, text="Save", command=save_settings).pack()
+    # Save Button
+    ttk.Button(
+        content_frame,
+        text="Save Settings",
+        command=lambda: save_pdf_settings(ocr_var, output_location_var),
+        bootstyle=SUCCESS
+    ).pack(pady=10)
 
-def browse_directory(var):
-    folder = filedialog.askdirectory()
-    print(browse_directory)
+
+def save_pdf_settings(ocr_var, output_location_var):
+    """Save PDF settings to the config."""
+    try:
+        config["pdf"]["ocr_enabled"] = ocr_var.get()
+        config["pdf"]["output_location"] = output_location_var.get()
+        messagebox.showinfo("Success", "PDF settings saved successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to save PDF settings: {e}")

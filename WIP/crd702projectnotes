@@ -54,3 +54,15 @@ diyscanner/
 ├── main.py
 
 ----------------------------------------------------------
+GUI Layout
+
++----------------------+-----------------------------------------+
+| Book Scanner (Header Area)                                    |
++----------------------+-----------------------------------------+
+| Settings (Sidebar) | Dynamic Content Area                     |
+| - Capture Settings  | - Capture settings form (on click)      |
+| - Processing        | - Processing settings form (on click)   |
+| - PDF Settings      | - PDF settings form (on click)          |
+| - Exit              |                                         |
++----------------------+-----------------------------------------+
+

@@ -1,46 +1,49 @@
-import tkinter as tk
-from tkinter import filedialog, messagebox
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from tkinter import messagebox
 from config.config import config
 
-def processing_settings_window(root):
-    def save_settings():
-        try:
-            config["processing"]["resize_dimensions"] = (int(width_var.get()), int(height_var.get()))
-            config["processing"]["contrast"] = float(contrast_var.get())
-            config["processing"]["brightness"] = float(brightness_var.get())
-            config["processing"]["save_location"] = save_location_var.get()
-            messagebox.showinfo("Success", "Processing settings saved successfully!")
-            window.destroy()
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to save settings: {e}")
 
-    window = tk.Toplevel(root)
-    window.title("Processing Settings")
+def render_processing_settings(content_frame):
+    """Render Processing Settings in the provided content frame."""
+    # Clear the content frame
+    for widget in content_frame.winfo_children():
+        widget.destroy()
 
-    width_var = tk.StringVar(value=str(config["processing"]["resize_dimensions"][0]))
-    height_var = tk.StringVar(value=str(config["processing"]["resize_dimensions"][1]))
-    contrast_var = tk.StringVar(value=str(config["processing"]["contrast"]))
-    brightness_var = tk.StringVar(value=str(config["processing"]["brightness"]))
-    save_location_var = tk.StringVar(value=config["processing"]["save_location"])
+    ttk.Label(content_frame, text="Processing Settings", font=("TkDefaultFont", 16, 'bold')).pack(pady=10)
 
-    tk.Label(window, text="Resize Width:").pack()
-    tk.Entry(window, textvariable=width_var).pack()
+    # Resize Dimensions
+    ttk.Label(content_frame, text="Resize Dimensions (Width x Height):").pack(anchor=W, padx=10)
+    width_var = ttk.StringVar(value=str(config["processing"]["resize_dimensions"][0]))
+    height_var = ttk.StringVar(value=str(config["processing"]["resize_dimensions"][1]))
+    ttk.Entry(content_frame, textvariable=width_var).pack(side=LEFT, padx=5)
+    ttk.Entry(content_frame, textvariable=height_var).pack(side=LEFT, padx=5)
 
-    tk.Label(window, text="Resize Height:").pack()
-    tk.Entry(window, textvariable=height_var).pack()
+    # Contrast
+    ttk.Label(content_frame, text="Contrast:").pack(anchor=W, padx=10)
+    contrast_var = ttk.StringVar(value=str(config["processing"]["contrast"]))
+    ttk.Entry(content_frame, textvariable=contrast_var).pack(padx=10, pady=5)
 
-    tk.Label(window, text="Contrast:").pack()
-    tk.Entry(window, textvariable=contrast_var).pack()
+    # Brightness
+    ttk.Label(content_frame, text="Brightness:").pack(anchor=W, padx=10)
+    brightness_var = ttk.StringVar(value=str(config["processing"]["brightness"]))
+    ttk.Entry(content_frame, textvariable=brightness_var).pack(padx=10, pady=5)
 
-    tk.Label(window, text="Brightness:").pack()
-    tk.Entry(window, textvariable=brightness_var).pack()
+    # Save Button
+    ttk.Button(
+        content_frame,
+        text="Save Settings",
+        command=lambda: save_processing_settings(width_var, height_var, contrast_var, brightness_var),
+        bootstyle=SUCCESS
+    ).pack(pady=10)
 
-    tk.Label(window, text="Save Location:").pack()
-    tk.Entry(window, textvariable=save_location_var).pack()
-    tk.Button(window, text="Browse", command=lambda: browse_directory(save_location_var)).pack()
 
-    tk.Button(window, text="Save", command=save_settings).pack()
-
-def browse_directory(var):
-    folder = filedialog.askdirectory()
-    print(browse_directory)
+def save_processing_settings(width_var, height_var, contrast_var, brightness_var):
+    """Save processing settings to the config."""
+    try:
+        config["processing"]["resize_dimensions"] = (int(width_var.get()), int(height_var.get()))
+        config["processing"]["contrast"] = float(contrast_var.get())
+        config["processing"]["brightness"] = float(brightness_var.get())
+        messagebox.showinfo("Success", "Processing settings saved successfully!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to save processing settings: {e}")
