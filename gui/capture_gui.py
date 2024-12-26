@@ -1,59 +1,102 @@
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-from tkinter import filedialog, messagebox
+from tkinter import messagebox
 from config.config import config
+from gui.browse import browse_directory
 
+def build_capture_settings(parent):
+    def save_capture_settings(): 
+        try:
+            config["capture"]["file_naming"] = file_naming_entry.get()
+            config["capture"]["num_captures"] = int(num_captures_entry.get())
+            config["capture"]["save_location"] = save_location_entry.get()
+            messagebox.showinfo("Success", "Capture settings saved successfully!")
+        except ValueError:
+            messagebox.showerror("Error", "Number of captures must be a valid number.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to save capture settings: {e}")
 
-def render_capture_settings(content_frame):
-    """Render Capture Settings in the provided content frame."""
-    # Clear the content frame
-    for widget in content_frame.winfo_children():
-        widget.destroy()
+    # Main frame
+    capture_overall = ttk.Frame(parent, bootstyle="dark")
+    capture_overall.grid(sticky=NS)
 
-    ttk.Label(content_frame, text="Capture Settings", font=("TkDefaultFont", 16, 'bold')).pack(pady=10)
+    # Settings content frame
+    capture_frame = ttk.Frame(capture_overall, bootstyle="light", padding=20)
+    capture_frame.grid()
+    for col in range(4):
+        capture_frame.grid_columnconfigure(col, weight=1)
 
-    # File Naming Format
-    ttk.Label(content_frame, text="File Naming Format:").pack(anchor=W, padx=10)
-    file_naming_var = ttk.StringVar(value=config["capture"]["file_naming"])
-    ttk.Entry(content_frame, textvariable=file_naming_var).pack(padx=10, pady=5)
+    # Header
+    header_frame = ttk.Frame(capture_frame)
+    header_frame.grid(row=0, column=0, columnspan=3)
+    
+    ttk.Label(
+        header_frame,
+        text="Capture Settings",
+        font=("Helvetica", 24, "bold"),
+        bootstyle="light inverse"
+    ).grid()
+    
+    ttk.Separator(capture_frame).grid(row=1, column=0, columnspan=4, sticky=EW, pady=20)
 
-    # Number of Captures
-    ttk.Label(content_frame, text="Number of Captures:").pack(anchor=W, padx=10)
-    num_captures_var = ttk.StringVar(value=str(config["capture"]["num_captures"]))
-    ttk.Entry(content_frame, textvariable=num_captures_var).pack(padx=10, pady=5)
+    # Form section
+    form_frame = ttk.Frame(
+        capture_frame,
+        bootstyle="light")
+    form_frame.grid(row=2, column=0, columnspan=3)
 
-    # Save Location
-    ttk.Label(content_frame, text="Save Location:").pack(anchor=W, padx=10)
-    save_location_var = ttk.StringVar(value=config["capture"]["save_location"])
-    ttk.Entry(content_frame, textvariable=save_location_var).pack(padx=10, pady=5)
-    ttk.Button(
-        content_frame,
+    # Create form rows
+    def create_form_row(label_text, row, entry_var=None, has_button=False):
+        ttk.Label(
+            form_frame,
+            text=label_text,
+            font=("Helvetica", 12),
+            padding=10,
+            bootstyle="light inverse"
+        ).grid(column=0, row=row)
+        
+        entry = ttk.Entry(form_frame)
+        entry.grid(column=1, row=row, padx=(10, 10 if has_button else 0))
+        
+        if entry_var is not None:
+            entry.insert(0, str(entry_var))
+            
+        return entry
+
+    # Form row info for function
+    file_naming_entry = create_form_row("File Naming Format:", 0, config["capture"]["file_naming"])
+    num_captures_entry = create_form_row("Number of Image Captures:", 1, config["capture"]["num_captures"])
+    save_location_entry = create_form_row("Save Location:", 2, config["capture"]["save_location"], True)
+
+    # Browse button with improved styling
+    browse_button = ttk.Button(
+        form_frame,
         text="Browse",
-        command=lambda: browse_directory(save_location_var)
-    ).pack(pady=5)
+        command=lambda: browse_directory(save_location_entry),
+        bootstyle="secondary outline",
+        width=10
+    )
+    browse_button.grid(column=2, row=2, sticky=W)
 
-    # Save Button
-    ttk.Button(
-        content_frame,
+    # Footer section with separator and save button
+    ttk.Separator(capture_frame).grid(row=3, column=0, columnspan=4, sticky=EW, pady=20)
+
+    # Save button container for better positioning
+    button_container = ttk.Frame(capture_frame)
+    button_container.grid(row=4, column=0, columnspan=3)
+
+    save_button = ttk.Button(
+        button_container,
         text="Save Settings",
-        command=lambda: save_capture_settings(file_naming_var, num_captures_var, save_location_var),
-        bootstyle=SUCCESS
-    ).pack(pady=10)
+        bootstyle="success",
+        command=save_capture_settings,
+        width=15
+    )
+    save_button.grid(row=0, column=0, ipady=10)
 
+    # Add tooltips for better UX
+    #ToolTip(file_naming_entry, text="Enter the format for naming captured files (e.g., 'page_{n}')")
+    #ToolTip(num_captures_entry, text="Enter the number of images to capture")
+    #ToolTip(save_location_entry, text="Select where to save captured images")
 
-def browse_directory(var):
-    """Open a folder dialog and update the variable."""
-    folder = filedialog.askdirectory()
-    if folder:
-        var.set(folder)
-
-
-def save_capture_settings(file_naming_var, num_captures_var, save_location_var):
-    """Save capture settings to the config."""
-    try:
-        config["capture"]["file_naming"] = file_naming_var.get()
-        config["capture"]["num_captures"] = int(num_captures_var.get())
-        config["capture"]["save_location"] = save_location_var.get()
-        messagebox.showinfo("Success", "Capture settings saved successfully!")
-    except Exception as e:
-        messagebox.showerror("Error", f"Failed to save capture settings: {e}")
+    return capture_frame

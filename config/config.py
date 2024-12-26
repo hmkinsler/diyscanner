@@ -6,6 +6,7 @@ config = {
     },
     "processing": {
         "resize_dimensions": (1024, 768),
+        "rotate": 270,
         "contrast": 1.5,
         "brightness": 1.0,
         "crop_margins": (10, 10, 10, 10),
@@ -13,6 +14,6 @@ config = {
     },
     "pdf": {
         "ocr_enabled": True,
-        "output_location": r"C:\Users\hacks\Documents\diyscannerfiles\output_dir"
+        "output_location": r"C:\Users\hacks\Documents\diyscannerfiles\testing\output_dir"
     }
 }
