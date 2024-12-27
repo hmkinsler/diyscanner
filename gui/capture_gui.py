@@ -1,8 +1,13 @@
+# This script handles the function for calling the image capture settings to the GUI dynamic window
+
+# Libraries
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
+
+# Utilities
 from config.config import config
-from gui.browse import browse_directory
+from gui.utils.browse import browse_directory
 
 def build_capture_settings(parent):
     def save_capture_settings(): 
@@ -16,47 +21,57 @@ def build_capture_settings(parent):
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save capture settings: {e}")
 
+    ttk.Frame(parent, bootstyle="dark").pack(fill=BOTH, expand=TRUE)
+
     # Main frame
-    capture_overall = ttk.Frame(parent, bootstyle="dark")
-    capture_overall.grid(sticky=NS)
+    capture_frame = ttk.Frame(
+        master=parent, 
+        bootstyle="dark",
+        padding=20
+        )
+    capture_frame.pack(fill=BOTH, expand=True)
 
-    # Settings content frame
-    capture_frame = ttk.Frame(capture_overall, bootstyle="light", padding=20)
-    capture_frame.grid()
-    for col in range(4):
-        capture_frame.grid_columnconfigure(col, weight=1)
-
-    # Header
-    header_frame = ttk.Frame(capture_frame)
-    header_frame.grid(row=0, column=0, columnspan=3)
-    
-    ttk.Label(
-        header_frame,
+    # Header section  
+    header_label = ttk.Label(
+        master=capture_frame,
         text="Capture Settings",
-        font=("Helvetica", 24, "bold"),
-        bootstyle="light inverse"
-    ).grid()
+            font=("Helvetica", 31, "bold"),
+            anchor=CENTER,
+            bootstyle="dark inverse"
+    ).pack(side=TOP, fill=BOTH, ipadx=10, ipady=10)
     
-    ttk.Separator(capture_frame).grid(row=1, column=0, columnspan=4, sticky=EW, pady=20)
+    first_divider = ttk.Separator(
+        master=capture_frame,
+        bootstyle="light")
+    first_divider.pack(fill=X, pady=20)
 
     # Form section
     form_frame = ttk.Frame(
-        capture_frame,
-        bootstyle="light")
-    form_frame.grid(row=2, column=0, columnspan=3)
+        master=capture_frame, 
+        bootstyle="dark"
+        )
+    form_frame.pack(fill=BOTH, expand=True)
 
-    # Create form rows
-    def create_form_row(label_text, row, entry_var=None, has_button=False):
+    def create_form_row(label_text, entry_var=None):
+        # Container for each row
+        row_frame = ttk.Frame(
+            master=form_frame,
+            bootstyle="dark")
+        row_frame.pack(fill=X, ipady=5)
+        
+        # Label
         ttk.Label(
-            form_frame,
+            row_frame,
             text=label_text,
             font=("Helvetica", 12),
-            padding=10,
-            bootstyle="light inverse"
-        ).grid(column=0, row=row)
+            padding=20,
+            bootstyle="dark inverse"
+        ).pack(side=LEFT, ipadx=10)
         
-        entry = ttk.Entry(form_frame)
-        entry.grid(column=1, row=row, padx=(10, 10 if has_button else 0))
+        # Entry
+        entry = ttk.Entry(
+            master=row_frame)
+        entry.pack(side=RIGHT, fill=X, expand=YES, ipadx=10)
         
         if entry_var is not None:
             entry.insert(0, str(entry_var))
@@ -64,35 +79,39 @@ def build_capture_settings(parent):
         return entry
 
     # Form row info for function
-    file_naming_entry = create_form_row("File Naming Format:", 0, config["capture"]["file_naming"])
-    num_captures_entry = create_form_row("Number of Image Captures:", 1, config["capture"]["num_captures"])
-    save_location_entry = create_form_row("Save Location:", 2, config["capture"]["save_location"], True)
+    file_naming_entry = create_form_row("File Naming Format:", config["capture"]["file_naming"])
+    num_captures_entry = create_form_row("Number of Image Captures:", config["capture"]["num_captures"])
+    save_location_entry = create_form_row("Save Location:", config["capture"]["save_location"])
 
-    # Browse button with improved styling
-    browse_button = ttk.Button(
-        form_frame,
-        text="Browse",
-        command=lambda: browse_directory(save_location_entry),
-        bootstyle="secondary outline",
-        width=10
-    )
-    browse_button.grid(column=2, row=2, sticky=W)
+    # Second separator
+    second_divider = ttk.Separator(
+        master=capture_frame,
+        bootstyle="light")
+    second_divider.pack(fill=X, pady=20)
 
-    # Footer section with separator and save button
-    ttk.Separator(capture_frame).grid(row=3, column=0, columnspan=4, sticky=EW, pady=20)
+    # Button container
+    button_container = ttk.Frame(
+        master=capture_frame,
+        padding=20,
+        bootstyle="dark"
+        )
+    button_container.pack(fill=X)
 
-    # Save button container for better positioning
-    button_container = ttk.Frame(capture_frame)
-    button_container.grid(row=4, column=0, columnspan=3)
+    my_style = ttk.Style()
+    my_style.configure(
+        "success.TButton",
+        font=("Helvetica", 15)
+        )
 
     save_button = ttk.Button(
-        button_container,
-        text="Save Settings",
+        master=button_container,
+        text="Save Capture Settings",
         bootstyle="success",
-        command=save_capture_settings,
-        width=15
+        style="success.TButton",
+        width=25,
+        command=save_capture_settings
     )
-    save_button.grid(row=0, column=0, ipady=10)
+    save_button.pack(ipady=10)
 
     # Add tooltips for better UX
     #ToolTip(file_naming_entry, text="Enter the format for naming captured files (e.g., 'page_{n}')")

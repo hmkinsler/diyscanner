@@ -6,6 +6,7 @@ __pycache__/
 .env
 .vscode/
 .venv/
+config/__pycache__/
  
 # Temporary files
 *.log
@@ -22,10 +23,8 @@ captured_images/
 processed_images/
 output/
 
-#My personal settings and notes
-/settings.py
+# My personal settings and notes
+config/my_paths.py
 
-#Temp
-/capture.py
-/metadata.py
-/processing.py
+# Miscellaneous development files
+misc/

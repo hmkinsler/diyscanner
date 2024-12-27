@@ -1,5 +1,5 @@
 import os
-from config.settings import CAPTURED_DIR, PROCESSED_DIR, OUTPUT_DIR
+from config.my_paths import CAPTURED_DIR, PROCESSED_DIR, OUTPUT_DIR
 
 def setup_directories():
     """Ensures all required directories exist."""

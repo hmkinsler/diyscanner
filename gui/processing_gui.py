@@ -1,96 +1,114 @@
 # This script handles the function for calling the image processing settings to the GUI dynamic window
+
+# Libraries
 import ttkbootstrap as ttk
 import tkinter as tk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
+
+# Utilities
 from config.config import config
 
 def build_processing_settings(parent):
     def save_processing_settings():
         try:
-            #config["processing"]["resize_dimensions"] = (int(width_var.get()), int(height_var.get()))
             config["processing"]["rotate"] = int(rotate_entry.get())
             config["processing"]["contrast"] = float(contrast_entry.get())
             config["processing"]["brightness"] = float(brightness_entry.get())
-            #config["processing"]["crop_margins"] = (
-                #int(top_var.get()),
-                ##int(right_var.get()),
-                #int(bottom_var.get()),
-                #int(left_var.get())
-            #)
             messagebox.showinfo("Success", "Processing settings saved successfully!")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save settings: {e}")
 
+    ttk.Frame(parent, bootstyle="dark").pack(fill=BOTH, expand=TRUE)
+
     # Main frame
-    processing_overall = ttk.Frame(parent, bootstyle="dark")
-    processing_overall.grid()
+    processing_frame = ttk.Frame(
+        master=parent, 
+        bootstyle="dark",
+        padding=20
+        )
+    processing_frame.pack(fill=BOTH, expand=True)
 
-    # Settings content frame
-    processing_frame = ttk.Frame(processing_overall, bootstyle="light", padding=20)
-    processing_frame.grid()
-    # Configure grid weights
-    for col in range(5):
-        processing_frame.grid_columnconfigure(col, weight=1)
-
-    # Header
-    header_frame = ttk.Frame(processing_frame)
-    header_frame.grid(row=0, column=0, columnspan=4)
-    
-    ttk.Label(
-        header_frame,
+    # Header section  
+    header_label = ttk.Label(
+        master=processing_frame,
         text="Processing Settings",
-        font=("Helvetica", 24, "bold"),
-        bootstyle="light inverse"
-    ).grid()
+            font=("Helvetica", 31, "bold"),
+            anchor=CENTER,
+            bootstyle="dark inverse"
+    ).pack(side=TOP, fill=BOTH, ipadx=10, ipady=10)
     
-    ttk.Separator(processing_frame).grid(row=1, column=0, columnspan=5, sticky=EW, pady=20)
+    first_divider = ttk.Separator(
+        master=processing_frame,
+        bootstyle="light")
+    first_divider.pack(fill=X, pady=20)
 
     # Form section
     form_frame = ttk.Frame(
-        processing_frame,
-        bootstyle="light"
-    )
-    form_frame.grid(row=2, column=0, columnspan=4)
+        master=processing_frame, 
+        bootstyle="dark"
+        )
+    form_frame.pack(fill=BOTH, expand=True)
 
-    # Create form rows
-    def create_form_row(label_text, row, entry_var=None, has_button=False):
+    def create_form_row(label_text, entry_var=None):
+        # Container for each row
+        row_frame = ttk.Frame(
+            master=form_frame,
+            bootstyle="dark")
+        row_frame.pack(fill=X, ipady=5)
+        
+        # Label
         ttk.Label(
-            form_frame,
+            row_frame,
             text=label_text,
             font=("Helvetica", 12),
-            padding=10,
-            bootstyle="light inverse"
-        ).grid(column=0, row=row)
+            padding=20,
+            bootstyle="dark inverse"
+        ).pack(side=LEFT, ipadx=10)
         
-        entry = ttk.Entry(form_frame)
-        entry.grid(column=1, row=row, padx=(10, 10 if has_button else 0))
+        # Entry
+        entry = ttk.Entry(
+            master=row_frame)
+        entry.pack(side=RIGHT, fill=X, expand=YES, ipadx=10)
         
         if entry_var is not None:
             entry.insert(0, str(entry_var))
             
         return entry
 
-    # Form row info for function
-    #resize_entry = create_form_row("Resize Images:", 0, config["processing"]["resize_dimensions"])
-    rotate_entry = create_form_row("Rotate Images:", 1, config["processing"]["rotate"])
-    contrast_entry = create_form_row("Adjust Contrast:", 2, config["processing"]["contrast"])
-    brightness_entry = create_form_row("Adjust Brightness", 3, config["processing"]["brightness"])
-    #crop_entry = create_form_row("Crop Images:", 4, config["processing"]["crop_margins"])
+    # Create form rows
+    rotate_entry = create_form_row("Rotate Images:", config["processing"]["rotate"])
+    contrast_entry = create_form_row("Adjust Contrast:", config["processing"]["contrast"])
+    brightness_entry = create_form_row("Adjust Brightness:", config["processing"]["brightness"])
 
-    ttk.Separator(processing_frame).grid(row=3, column=0, columnspan=5, sticky=EW, pady=20)
+    # Second separator
+    second_divider = ttk.Separator(
+        master=processing_frame,
+        bootstyle="light")
+    second_divider.pack(fill=X, pady=20)
 
-    button_container = ttk.Frame(processing_frame)
-    button_container.grid(row=4, column=0, columnspan=4)
+    # Button container
+    button_container = ttk.Frame(
+        master=processing_frame,
+        padding=20,
+        bootstyle="dark"
+        )
+    button_container.pack(fill=X)
+
+    my_style = ttk.Style()
+    my_style.configure(
+        "success.TButton",
+        font=("Helvetica", 15)
+        )
 
     save_button = ttk.Button(
-        button_container,
-        text="Save Settings",
+        master=button_container,
+        text="Save Processing Settings",
         bootstyle="success",
-        command=save_processing_settings,
-        width=15
+        style="success.TButton",
+        width=25,
+        command=save_processing_settings
     )
-    save_button.grid(row=0, column=0, ipady=10)
+    save_button.pack(ipady=10)
 
-    # Return the built frame
     return processing_frame
