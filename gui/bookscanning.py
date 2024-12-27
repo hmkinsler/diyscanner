@@ -24,7 +24,7 @@ class BookScanningApp(ttk.Frame):
     def load_images(self):
         try:
             # self.window_icon = ImageTk.PhotoImage(Image.open("images/wingow.png")) # I have not yet made this logo file
-            self.logo_icon = ImageTk.PhotoImage(Image.open("gui/images/logo.png").resize((100,100)))
+            self.logo_icon = ImageTk.PhotoImage(Image.open("gui/images/logo.png").resize((350,350)))
             self.capture_icon = ImageTk.PhotoImage(Image.open("gui/images/capture.png").resize((50,50)))
             self.processing_icon = ImageTk.PhotoImage(Image.open("gui/images/processing.png").resize((50,50)))
             self.pdf_icon = ImageTk.PhotoImage(Image.open("gui/images/pdf.png").resize((50,50)))
@@ -47,6 +47,11 @@ class BookScanningApp(ttk.Frame):
             bootstyle="dark"
         )
         sidebar_frame.pack(side=LEFT, fill=BOTH)
+
+        first_sidebar_divider = ttk.Separator(
+            master=sidebar_frame,
+            bootstyle="light")
+        first_sidebar_divider.pack(fill=X, pady=20)
         
         lbl = ttk.Label(
             master=sidebar_frame,
@@ -56,6 +61,16 @@ class BookScanningApp(ttk.Frame):
             bootstyle="dark inverse"
         )
         lbl.pack(side=TOP, fill=BOTH, ipadx=5, ipady=5)
+
+        second_sidebar_divider = ttk.Separator(
+            master=sidebar_frame,
+            bootstyle="light")
+        second_sidebar_divider.pack(fill=X, pady=20)
+
+        final_sidebar_divider = ttk.Separator(
+            master=sidebar_frame,
+            bootstyle="light")
+        final_sidebar_divider.pack(side=BOTTOM, fill=X, pady=20)
 
         buttons = [
             ("Image Capture Settings", build_capture_settings, self.capture_icon),
@@ -95,30 +110,49 @@ class BookScanningApp(ttk.Frame):
 
         self.subframe = ttk.Frame(
             master=self.dynamic_frame,
-            padding=10,
+            padding=20,
             bootstyle="dark"
         )
-        self.subframe.pack(side=RIGHT, fill=BOTH, expand=TRUE, ipadx=30, ipady=20)
+        self.subframe.pack(side=RIGHT, fill=BOTH, expand=TRUE, ipadx=10, ipady=20)
+
+        first_header_divider = ttk.Separator(
+            master=self.subframe,
+            bootstyle="light")
+        first_header_divider.pack(fill=X, pady=20)
 
         welcome_header = ttk.Label(
             master=self.subframe,
             text=" Welcome to DIY Book Scanner!",
             font=("Helvetica", 31, "bold"),
-            image=self.logo_icon,
-            compound=LEFT,
             anchor=CENTER,
             bootstyle="dark inverse"
         ).pack(side=TOP, fill=BOTH, ipady=10)
 
+        second_header_divider = ttk.Separator(
+            master=self.subframe,
+            bootstyle="light")
+        second_header_divider.pack(fill=X, pady=20)
+
+        final_frame_divider = ttk.Separator(
+            master=self.subframe,
+            bootstyle="light")
+        final_frame_divider.pack(side=BOTTOM, fill=X, pady=20)
+
         user_tip = ttk.Label(
             master=self.subframe,
-            text="Select an option from the sidebar to begin configuring your scan settings.\n\n\nRemember to test your settings via 'Image Preview.'\n\n\nFor more information about this software project, you can reach out to the primary project researcher, Haley Kinsler, at hmkinsle@ncsu.edu",
-            font=("Helvetica", 24),
-            wraplength=700,
-            justify="left",
+            text="Select an option from the sidebar to begin configuring your scan settings.\n\nRemember to test your settings via 'Image Preview.'\n\nFor more information about this software project, you can reach out to the primary project researcher, Haley Kinsler, at hmkinsle@ncsu.edu",
+            font=("Helvetica", 18),
+            anchor=CENTER,
+            wraplength=380,
+            bootstyle="dark inverse"
+        ).pack(side=LEFT, fill=BOTH)
+
+        logo = ttk.Label(
+            master=self.subframe,
+            image=self.logo_icon,
             anchor=CENTER,
             bootstyle="dark inverse"
-        ).pack(side=TOP, fill=BOTH, ipady=20)
+        ).pack(side=RIGHT, fill=BOTH)
 
     def show_content_frame(self, content_builder):
         for widget in self.dynamic_frame.winfo_children():
