@@ -1,1 +1,1 @@
-#not yet complete
+# This part of the DIY Book Scanning app has yet to be developed

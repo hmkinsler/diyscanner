@@ -1,12 +1,16 @@
 # Python-related files
 *.pyc
-__pycache__/
 *.pyo
 *.pyd
 .env
 .vscode/
 .venv/
+__pycache__/
 config/__pycache__/
+gui/__pycache__/
+gui/images/__pycache__/
+gui/utils/__pycache__/
+src/__pycache__/
  
 # Temporary files
 *.log
@@ -18,13 +22,7 @@ config/__pycache__/
 .DS_Store
 Thumbs.db
 
-# Captured and processed images
-captured_images/
-processed_images/
-output/
-
-# My personal settings and notes
-config/my_paths.py
-
 # Miscellaneous development files
 misc/
+config/my_paths.py
+gui/images/old_images/

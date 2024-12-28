@@ -10,11 +10,7 @@ This project automates the process of capturing, processing, and generating PDFs
 ## Directory Structure
 - `src/`: Contains the source code for the project.
 - `config/`: Configuration files.
-- `captured_images/`: Directory for raw images.
-- `processed_images/`: Directory for processed images.
-- `output/`: Directory for final PDFs.
+- `gui/`: Contains the code for the DIY Book Scanner application.
 
-## Setup
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
+## More information
+- To learn more about this project and my archival work, you can visit the [Fourth Ward Oral History Project website](https://www.fourthwardhistory.org/crd702)

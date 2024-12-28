@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 from gui.capture_gui import build_capture_settings
 from gui.processing_gui import build_processing_settings
 from gui.pdf_gui import build_pdf_settings
-from gui.preview_gui import call_preview
+from gui.preview_gui import build_preview
 
 class BookScanningApp(ttk.Frame):
     def __init__(self, master):
@@ -23,12 +23,11 @@ class BookScanningApp(ttk.Frame):
 
     def load_images(self):
         try:
-            # self.window_icon = ImageTk.PhotoImage(Image.open("images/wingow.png")) # I have not yet made this logo file
-            self.logo_icon = ImageTk.PhotoImage(Image.open("gui/images/logo.png").resize((350,350)))
-            self.capture_icon = ImageTk.PhotoImage(Image.open("gui/images/capture.png").resize((50,50)))
-            self.processing_icon = ImageTk.PhotoImage(Image.open("gui/images/processing.png").resize((50,50)))
-            self.pdf_icon = ImageTk.PhotoImage(Image.open("gui/images/pdf.png").resize((50,50)))
-            self.preview_icon = ImageTk.PhotoImage(Image.open("gui/images/preview.png").resize((50,50)))
+            self.logo_icon = ImageTk.PhotoImage(Image.open("gui/images/logo_transparent.png").resize((400,400)))
+            self.capture_icon = ImageTk.PhotoImage(Image.open("gui/images/capture_transparent.png").resize((50,50)))
+            self.processing_icon = ImageTk.PhotoImage(Image.open("gui/images/processing_transparent.png").resize((50,50)))
+            self.pdf_icon = ImageTk.PhotoImage(Image.open("gui/images/pdf_transparent.png").resize((50,50)))
+            self.preview_icon = ImageTk.PhotoImage(Image.open("gui/images/preview_transparent.png").resize((50,50)))
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load images: {str(e)}")
 
@@ -56,11 +55,11 @@ class BookScanningApp(ttk.Frame):
         lbl = ttk.Label(
             master=sidebar_frame,
             text="Workflow Settings",
-            font=("Helvetica", 25, "bold"),
+            font=("Helvetica", 31, "bold"),
             anchor=CENTER,
             bootstyle="dark inverse"
         )
-        lbl.pack(side=TOP, fill=BOTH, ipadx=5, ipady=5)
+        lbl.pack(side=TOP, fill=BOTH, ipadx=5, ipady=10)
 
         second_sidebar_divider = ttk.Separator(
             master=sidebar_frame,
@@ -76,7 +75,7 @@ class BookScanningApp(ttk.Frame):
             ("Image Capture Settings", build_capture_settings, self.capture_icon),
             ("Image Processing Settings", build_processing_settings, self.processing_icon),
             ("PDF Settings", build_pdf_settings, self.pdf_icon),
-            ("Preview Image Capture", call_preview, self.preview_icon),
+            ("Preview Image Capture", build_preview, self.preview_icon),
         ]
 
         my_style = ttk.Style()
@@ -102,9 +101,7 @@ class BookScanningApp(ttk.Frame):
         self.dynamic_frame = ttk.Frame(
             master=self,
             padding=10,
-            bootstyle="primary",
-            width=500,
-            height=200
+            bootstyle="primary"
         )
         self.dynamic_frame.pack(side=RIGHT, fill=BOTH, expand=TRUE, ipadx=30, ipady=20)
 
@@ -113,7 +110,7 @@ class BookScanningApp(ttk.Frame):
             padding=20,
             bootstyle="dark"
         )
-        self.subframe.pack(side=RIGHT, fill=BOTH, expand=TRUE, ipadx=10, ipady=20)
+        self.subframe.pack(side=RIGHT, fill=BOTH, expand=TRUE, ipady=10)
 
         first_header_divider = ttk.Separator(
             master=self.subframe,
@@ -141,18 +138,18 @@ class BookScanningApp(ttk.Frame):
         user_tip = ttk.Label(
             master=self.subframe,
             text="Select an option from the sidebar to begin configuring your scan settings.\n\nRemember to test your settings via 'Image Preview.'\n\nFor more information about this software project, you can reach out to the primary project researcher, Haley Kinsler, at hmkinsle@ncsu.edu",
-            font=("Helvetica", 18),
+            font=("Helvetica", 27),
             anchor=CENTER,
-            wraplength=380,
+            wraplength=600,
             bootstyle="dark inverse"
-        ).pack(side=LEFT, fill=BOTH)
+        ).pack(side=LEFT, fill=Y, expand=True, padx=15, pady=20)
 
         logo = ttk.Label(
             master=self.subframe,
             image=self.logo_icon,
             anchor=CENTER,
             bootstyle="dark inverse"
-        ).pack(side=RIGHT, fill=BOTH)
+        ).pack(fill=Y, expand=True, padx=10)
 
     def show_content_frame(self, content_builder):
         for widget in self.dynamic_frame.winfo_children():
@@ -187,8 +184,12 @@ if __name__ == "__main__":
         title="DIY Book Scanner", 
         themename="vapor", 
         resizable=(False, False),
-        minsize=(1200,600),
-        maxsize=(1200,600)
+        minsize=(1500,800),
+        maxsize=(1500,800),
     )
+    
+    icon_img = ImageTk.PhotoImage(Image.open("gui/images/window.png"))
+    app.iconphoto(False, icon_img)
+
     BookScanningApp(app)
     app.mainloop()

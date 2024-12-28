@@ -1,9 +1,9 @@
 import os
-from config.my_paths import CAPTURED_DIR, PROCESSED_DIR, OUTPUT_DIR
+from config.my_paths import capture_save_location, processing_save_location, pdf_output_location
 
 def setup_directories():
     """Ensures all required directories exist."""
-    for directory in [CAPTURED_DIR, PROCESSED_DIR, OUTPUT_DIR]:
+    for directory in [capture_save_location, processing_save_location, pdf_output_location]:
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"Created directory: {directory}")
