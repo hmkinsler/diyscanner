@@ -1,8 +1,8 @@
-# Run this script with python -m gui.maingui
+# Run this script with python -m gui.bookscanning
 
 # Libraries
-import ttkbootstrap as ttk
 import tkinter as tk
+import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from PIL import Image, ImageTk

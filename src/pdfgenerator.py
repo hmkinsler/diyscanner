@@ -1,4 +1,4 @@
-from fpdf import FPDF
+# Need to replace pdf generator library
 from PIL import Image
 import pytesseract
 import os
