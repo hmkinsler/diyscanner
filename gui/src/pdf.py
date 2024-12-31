@@ -1,15 +1,10 @@
-# This script handles the function for calling the PDF creation settings to the GUI dynamic window
-
-# Libraries
-import ttkbootstrap as ttk
 import tkinter as tk
-from ttkbootstrap.constants import *
+import ttkbootstrap as ttk
 from tkinter import messagebox
+from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
-# Utilities
-from config.config import config
-from gui.utils.browse import browse_directory
+from utils.settings import config
 
 class PDFWindow():
     def __init__(self, parent):
@@ -19,7 +14,7 @@ class PDFWindow():
 
     def load_images(self):
         try:
-            image = ImageTk.PhotoImage(Image.open("gui/images/save_transparent.png").resize((50, 50)))
+            image = ImageTk.PhotoImage(Image.open("assets/save_icon.png").resize((50, 50)))
             return image
         except FileNotFoundError as e:
             messagebox.showerror("Error", str(e))

@@ -1,4 +1,4 @@
-from config.my_paths import capture_save_location, processing_save_location, pdf_output_location
+from utils.my_paths import capture_save_location, processing_save_location, pdf_output_location
 
 config = {
     "capture": {

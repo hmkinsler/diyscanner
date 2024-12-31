@@ -17,7 +17,6 @@
 .DS_Store
 Thumbs.db
 
-# Miscellaneous development files
-misc/
-config/my_paths.py
-gui/images/old_images/
+# Development files
+dev/
+utils/my_paths.py

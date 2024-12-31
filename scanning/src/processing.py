@@ -1,6 +1,8 @@
-from PIL import Image, ImageEnhance
+
 import os
-from config.config import config
+from PIL import Image, ImageEnhance
+
+from utils.settings import config
 
 def process_images(input_dir, output_dir):
     processing_config = config["processing"]

@@ -1,4 +1,3 @@
-# this script ensures that any "browse directory" GUI functions will be able to browse directories and set them as needed
 import os
 from tkinter import filedialog
 

@@ -1,7 +1,7 @@
 # Need to replace pdf generator library
-from PIL import Image
-import pytesseract
 import os
+import pytesseract
+from PIL import Image
 
 def create_pdf_with_ocr(image_dir, output_pdf):
     """

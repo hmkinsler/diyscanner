@@ -1,5 +1,5 @@
 import os
-from config.my_paths import capture_save_location, processing_save_location, pdf_output_location
+from utils.my_paths import capture_save_location, processing_save_location, pdf_output_location
 
 def setup_directories():
     """Ensures all required directories exist."""

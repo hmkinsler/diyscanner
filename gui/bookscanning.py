@@ -1,17 +1,13 @@
-# Run this script with python -m gui.bookscanning
-
-# Libraries
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-# Functions from other scripts
-from gui.capture_gui import build_capture_settings
-from gui.processing_gui import build_processing_settings
-from gui.pdf_gui import build_pdf_settings
-from gui.preview_gui import build_preview
+from gui.src.capture import build_capture_settings
+from gui.src.processing import build_processing_settings
+from gui.src.pdf import build_pdf_settings
+from gui.src.preview import build_preview
 
 class BookScanningApp(ttk.Frame):
     def __init__(self, master):
@@ -23,11 +19,11 @@ class BookScanningApp(ttk.Frame):
 
     def load_images(self):
         try:
-            self.logo_icon = ImageTk.PhotoImage(Image.open("gui/images/logo_transparent.png").resize((400,400)))
-            self.capture_icon = ImageTk.PhotoImage(Image.open("gui/images/capture_transparent.png").resize((50,50)))
-            self.processing_icon = ImageTk.PhotoImage(Image.open("gui/images/processing_transparent.png").resize((50,50)))
-            self.pdf_icon = ImageTk.PhotoImage(Image.open("gui/images/pdf_transparent.png").resize((50,50)))
-            self.preview_icon = ImageTk.PhotoImage(Image.open("gui/images/preview_transparent.png").resize((50,50)))
+            self.logo_icon = ImageTk.PhotoImage(Image.open("assets/logo_icon.png").resize((400,400)))
+            self.capture_icon = ImageTk.PhotoImage(Image.open("assets/capture_icon.png").resize((50,50)))
+            self.processing_icon = ImageTk.PhotoImage(Image.open("assets/processing_icon.png").resize((50,50)))
+            self.pdf_icon = ImageTk.PhotoImage(Image.open("assets/pdf_icon.png").resize((50,50)))
+            self.preview_icon = ImageTk.PhotoImage(Image.open("assets/preview_icon.png").resize((50,50)))
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load images: {str(e)}")
 
@@ -188,7 +184,7 @@ if __name__ == "__main__":
         maxsize=(1500,800),
     )
     
-    icon_img = ImageTk.PhotoImage(Image.open("gui/images/window.png"))
+    icon_img = ImageTk.PhotoImage(Image.open("assets/app_window_icon.png"))
     app.iconphoto(False, icon_img)
 
     BookScanningApp(app)

@@ -1,17 +1,13 @@
-# This is meant to define the "preview image" window in the GUI, so that the user can view the images and make image adjustment settings before beginning to scan
-
-# Libraries
+import tkinter as tk
+import ttkbootstrap as ttk
 import os
 import subprocess
 import tempfile
-import ttkbootstrap as ttk
-import tkinter as tk
-from ttkbootstrap.constants import *
 from tkinter import messagebox
+from ttkbootstrap.constants import *
 from PIL import Image, ImageTk, ImageOps, ImageEnhance
 
-# Utilities
-from config.config import config
+from utils.settings import config
 
 class PreviewWindow():
     def __init__(self, parent):

@@ -1,7 +1,9 @@
 from src.capture import capture_images
 from src.processing import process_images
-from src.pdfgenerator import create_pdf_with_ocr
-from config.config import config
+from scanning.src.pdf_generator import create_pdf_with_ocr
+
+# Utilities
+from utils.settings import config
 
 def start_workflow():
     """Run the complete workflow: capture, process, and generate PDF."""
