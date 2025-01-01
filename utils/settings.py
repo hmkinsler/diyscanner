@@ -7,8 +7,8 @@ config = {
         "save_location": capture_save_location
     },
     "processing": {
-        "resize_dimensions": (1024, 768),
-        "rotate": 270,
+        "resize_dimensions": (800, 400),
+        "rotate": 0,
         "contrast": 1.5,
         "brightness": 1.0,
         "crop_margins": (10, 10, 10, 10),

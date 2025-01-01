@@ -5,7 +5,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 from gui.src.capture import build_capture_settings
-from gui.src.processing import build_processing_settings
+from gui.src.processing import build_processing_preview
 from gui.src.pdf import build_pdf_settings
 from gui.src.preview import build_preview
 
@@ -69,7 +69,7 @@ class BookScanningApp(ttk.Frame):
 
         buttons = [
             ("Image Capture Settings", build_capture_settings, self.capture_icon),
-            ("Image Processing Settings", build_processing_settings, self.processing_icon),
+            ("Image Processing Settings", build_processing_preview, self.processing_icon),
             ("PDF Settings", build_pdf_settings, self.pdf_icon),
             ("Preview Image Capture", build_preview, self.preview_icon),
         ]

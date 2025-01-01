@@ -15,11 +15,11 @@ class PreviewWindow():
         self.preview_label = None
         self.build_preview()
 
-        # Preview Functionality
+    # Preview Functionality
     def build_preview(self):
         # Main frame
         overall_frame = ttk.Frame(
-                self.parent,
+                master=self.parent,
                 bootstyle="dark",
                 padding=20
                 )
@@ -31,6 +31,7 @@ class PreviewWindow():
             bootstyle="light")
         header_divider.pack(fill=X, pady=20)
 
+        # Preview section
         self.preview_holder = ttk.Frame(
             master=overall_frame,
             bootstyle="dark"

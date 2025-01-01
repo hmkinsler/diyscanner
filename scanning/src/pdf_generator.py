@@ -15,7 +15,7 @@ def create_pdf_with_ocr(image_dir, output_pdf):
     temp_text_file = "temp_ocr.txt"  # Temporary file for OCR text
 
     for filename in sorted(os.listdir(image_dir)):
-        if filename.lower().endswith(".jpg"):
+        if filename.__contains__(".jpg"):
             image_path = os.path.join(image_dir, filename)
             
             # Add image to the PDF

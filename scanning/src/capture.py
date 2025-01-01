@@ -11,7 +11,7 @@ def capture_images(config):
         os.makedirs(output_dir)
 
     for i in range(1, num_captures + 1):
-        filename = file_naming.format(i)
+        filename = file_naming(i)
         output_path = os.path.join(output_dir, filename)
         command = [
             "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe",
