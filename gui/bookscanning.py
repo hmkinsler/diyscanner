@@ -4,10 +4,10 @@ from ttkbootstrap.constants import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-from gui.src.capture import build_capture_settings
-from gui.src.processing import build_processing_preview
-from gui.src.pdf import build_pdf_settings
-from gui.src.preview import build_preview
+from gui.src.capture_gui import build_capture_settings
+from gui.src.processing_gui import build_processing_preview
+from gui.src.pdf_gui import build_pdf_settings
+from gui.src.preview_gui import build_preview
 
 class BookScanningApp(ttk.Frame):
     def __init__(self, master):
