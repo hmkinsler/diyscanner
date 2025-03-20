@@ -1,9 +1,7 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-import os
 import subprocess
 import tempfile
-import json
 import cv2
 import numpy as np
 from tkinter import messagebox
@@ -11,6 +9,7 @@ from ttkbootstrap.constants import *
 from PIL import Image, ImageTk, ImageEnhance
 
 from utils.settings import config
+from scanning.src.processing import detect_page
 
 class ProcessingWindow:
     def __init__(self, parent):
@@ -221,44 +220,17 @@ class ProcessingWindow:
         # Update the preview
         self.update_preview(working_image)
 
-    def crop_right_page(self, image):
-        self.image = image
-        cv2.imread(image)
-        original = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        
-        # Convert to grayscale
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        
-        # Apply GaussianBlur to reduce noise
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        
-        # Perform edge detection
-        edged = cv2.Canny(blurred, 50, 150)
-        
-        # Find contours
-        contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        # Filter out the largest contour (assumed to be the book)
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)
-        largest_contour = contours[0]
-        
-        # Get bounding box of the largest contour
-        x, y, w, h = cv2.boundingRect(largest_contour)
-        center_x = x + w // 2
-        
-        # Define the right page box
-        right_page_box = (center_x, y, x + w, y + h)
-        
-        # Convert to PIL format and crop the right page
-        pil_image = Image.fromarray(original)
-        right_page = pil_image.crop(right_page_box)
-        
-        return right_page
-
     def update_preview(self, image):
-        right_page = self.crop_right_page(image)
-        if right_page:
-            return right_page
+        # Detect crop directly on the test image
+        corners = detect_page(image)
+        if corners:
+            x, y, w, h = cv2.boundingRect(corners)
+            crop = {"x": x, "y": y, "w": w, "h": h}
+
+            # Apply cropping
+            image = image.crop((crop["x"], crop["y"], crop["x"] + crop["w"], crop["y"] + crop["h"]))
+        else:
+            print("No crop detected for the test image.")
 
         # Get canvas dimensions
         canvas_width = self.canvas.winfo_width()

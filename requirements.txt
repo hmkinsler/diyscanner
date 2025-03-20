@@ -1,5 +1,26 @@
-opencv-python==4.10.0.84
-ttkbootstrap==1.10.1
-numpy==2.2.0
+# Python version used for development --> 3.11.9 https://www.python.org/downloads/release/python-3119/
+
+# Scanning workflow dependencies
 Pillow==11.0.0
-pytesseract==0.3.13
+numpy==1.26.4
+
+# GUI dependencies
+ttkbootstrap==1.10.1
+opencv-python==4.9.0.80
+
+# Dependencies for machine learning & automatic book page detection
+# label-studio==1.15.1
+# huggingface_hub==0.16.4
+# bs4==0.0.1
+# requests==2.26.0
+# datasets==2.14.0
+# pandas==1.4.0
+# torch==2.1.0
+# torchvision==0.16.0
+# torchaudio==2.1.0
+# transformers==4.31.0
+# ultralytics==8.0.0
+
+# OCR dependencies
+# install Tesseract for Windows: https://github.com/UB-Mannheim/tesseract/wiki and ensure to include the path to the Tesseract executable in the PATH environment variable
+# pytesseract==0.3.13

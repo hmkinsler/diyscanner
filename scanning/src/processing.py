@@ -6,6 +6,40 @@ from PIL import Image, ImageEnhance
 
 from utils.settings import config
 
+def detect_page(image_or_path):
+    if isinstance(image_or_path, str):
+        img = cv2.imread(image_or_path)
+        original = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
+        # Convert to grayscale
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        
+        # Apply GaussianBlur to reduce noise
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        
+        # Perform edge detection
+        edged = cv2.Canny(blurred, 50, 150)
+        
+        # Find contours
+        contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        # Filter out the largest contour (assumed to be the book)
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)
+        largest_contour = contours[0]
+        
+        # Get bounding box of the largest contour
+        x, y, w, h = cv2.boundingRect(largest_contour)
+        center_x = x + w // 2
+        
+        # Define the right page box
+        right_page_box = (center_x, y, x + w, y + h)
+        
+        # Convert to PIL format and crop the right page
+        pil_image = Image.fromarray(original)
+        right_page = pil_image.crop(right_page_box)
+        
+        return right_page
+
 def process_images(input_dir, output_dir):
     processing_config = config["processing"]
     resize_dimensions = processing_config["resize_dimensions"]

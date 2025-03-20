@@ -2,7 +2,7 @@
 *.pyc
 *.pyo
 *.pyd
-.env
+*.env
 *__pycache__/
 .vscode/
 .venv/
@@ -21,3 +21,4 @@ Thumbs.db
 dev/
 utils/my_paths.py
 book_imaging_files/
+llm_tools/

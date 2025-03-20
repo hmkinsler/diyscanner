@@ -1,16 +1,29 @@
 import tkinter as tk
 import ttkbootstrap as ttk
+import subprocess
+import tempfile
 from tkinter import messagebox
 from ttkbootstrap.constants import *
 from PIL import Image, ImageTk
 
 from utils.settings import config
+from utils.browse import browse_directory
 
 class CaptureWindow():
     def __init__(self, parent):
         self.parent=parent
+        self.settings = config['capture']
+
         self.build_capture_settings()
         self.load_images()
+        self.initialize_meters()
+
+        self.image=None
+        self.canvas = None
+        self.tk_image = None
+        self.current_image = None
+        self.image_offset = (0, 0)
+        self.image_scale = 1.0
 
     def load_images(self):
         try:
@@ -21,133 +34,260 @@ class CaptureWindow():
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load image due to: {str(e)}")
 
-    def build_capture_settings(self):            
-        def save_capture_settings(): 
-            try:
-                config["capture"]["file_naming"] = file_naming_entry.get()
-                config["capture"]["num_captures"] = int(num_captures_entry.get())
-                config["capture"]["save_location"] = save_location_entry.get()
-                messagebox.showinfo("Success", "Capture settings saved successfully!")
-            except ValueError:
-                messagebox.showerror("Error", "Number of captures must be a valid number.")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to save capture settings: {e}")
-
-        # Create the main container frame with padding
-        main_container = ttk.Frame(
-            master=self.parent,
-            bootstyle="primary"
-        )
-        main_container.pack(fill=BOTH, expand=TRUE, ipadx=30, ipady=20)
-
-        # Main frame
-        capture_frame = ttk.Frame(
-            master=main_container, 
-            bootstyle="dark",
-            padding=20
-            )
-        capture_frame.pack(fill=BOTH, expand=True)
-
-        # Header section  
-        first_header_divider = ttk.Separator(
-            master=capture_frame,
-            bootstyle="light")
-        first_header_divider.pack(fill=X, pady=20)
+    def initialize_meters(self):
+        num_captures = self.settings['num_captures'] * 100
+        self.num_captures_meter.configure(amountused=num_captures)
         
-        header_label = ttk.Label(
-            master=capture_frame,
-            text="Capture Settings",
-                font=("Helvetica", 31, "bold"),
-                anchor=CENTER,
-                bootstyle="dark inverse"
-        ).pack(side=TOP, fill=BOTH, ipadx=10, ipady=10)
+        capture_interval = (self.settings['capture_interval']) * 100
+        self.capture_interval_meter.configure(amountused=capture_interval)
+        
+        iso = (self.settings['iso']) * 100
+        self.iso_meter.configure(amountused=iso)
 
-        second_header_divider = ttk.Separator(
-            master=capture_frame,
-            bootstyle="light")
-        second_header_divider.pack(fill=X, pady=20)
+        aperture = (self.settings['aperture']) * 100
+        self.aperture_meter.configure(amountused=aperture)
 
-        # Form section
-        form_frame = ttk.Frame(
-            master=capture_frame,
-            padding=30, 
+        shutter_speed = (self.settings['shutter_speed']) * 100
+        self.shutter_speed_meter.configure(amountused=shutter_speed)
+
+    def build_capture_settings(self):
+        # Main frame
+        self.overall_frame = ttk.Frame(
+            master=self.parent, 
             bootstyle="dark",
+            padding=10)
+        self.overall_frame.pack(fill=BOTH, expand=True)
+
+        label_frame_style = ttk.Style()
+        label_frame_style.configure(
+            "light.TLabelframe.Label",
+            font=("Helvetica", 20)
+        )
+
+        # Header frame
+        self.header_frame = ttk.LabelFrame(
+            master=self.overall_frame,
+            bootstyle="light",
+            text="Preview Window"
+        )
+        self.header_frame.pack(fill=BOTH, expand=True)
+
+        # Dynamic frame for settings
+        self.canvas = tk.Canvas(
+            master=self.header_frame,
+            bg="gray",
+            highlightthickness=0,
+            width=800,  # Fixed width
+            height=400  # Fixed height
+        )
+        self.canvas.pack(fill=BOTH, expand=True)
+
+        # Settings widget frame
+        settings_frame = ttk.LabelFrame(
+            master=self.overall_frame,
+            bootstyle="light",
+            text="Capture Settings"
             )
-        form_frame.pack(fill=BOTH, expand=True)
+        settings_frame.pack(fill=X)
 
-        def create_form_row(label_text, entry_var=None):
-            # Container for each row
-            row_frame = ttk.Frame(
-                master=form_frame,
-                bootstyle="dark")
-            row_frame.pack(fill=BOTH, expand=True, ipady=5)
-            
-            # Label
-            ttk.Label(
-                master=row_frame,
-                text=label_text,
-                font=("Helvetica", 20),
-                anchor=W,
-                bootstyle="dark inverse"
-            ).pack(side=LEFT, fill=BOTH)
-            
-            # Entry
-            entry = ttk.Entry(
-                master=row_frame,
-                font=("Helvetica", 15),
-                justify=CENTER
-            )
-            entry.pack(fill=X, expand=True, ipady=8, padx=50, pady=20)
-            
-            if entry_var is not None:
-                entry.insert(0, str(entry_var))
-                
-            return entry
-
-        # Form row info for function
-        file_naming_entry = create_form_row("File Naming Format:", config["capture"]["file_naming"])
-        num_captures_entry = create_form_row("Number of Captures:", config["capture"]["num_captures"])
-        save_location_entry = create_form_row("File Output Location:", config["capture"]["save_location"])
-
-        # Second set of separators
-        first_button_divider = ttk.Separator(
-            master=capture_frame,
-            bootstyle="light")
-        first_button_divider.pack(fill=X, pady=20)
-
-        second_button_divider = ttk.Separator(
-            master=capture_frame,
-            bootstyle="light")
-        second_button_divider.pack(side=BOTTOM, fill=X, pady=20)
-
-        # Button container
-        button_container = ttk.Frame(
-            master=capture_frame,
-            padding=20,
+        #Buttons section
+        button_label = ttk.Label(
+            master=settings_frame,
+            background="#190831",
             bootstyle="dark"
             )
-        button_container.pack(fill=X)
+        button_label.pack(side=LEFT, fill=X)
 
         my_style = ttk.Style()
         my_style.configure(
-            "success.Outline.TButton",
-            font=("Helvetica", 25)
+                "primary.TButton",
+                font=("Helvetica", 18),
             )
 
-        save_icon = self.load_images()
-        
-        save_button = ttk.Button(
-            master=button_container,
-            text=" Save Capture Settings",
-            image=save_icon,
-            compound="left",
+        capture_button = ttk.Button(
+            master=button_label,
+            text="Capture Image for Preview",
             bootstyle="success",
-            style="success.Outline.TButton",
+            style="primary.TButton",
+            padding=10,
             width=25,
-            command=save_capture_settings
+            command=self.capture_preview_image,
+        ).pack(expand=True, padx=10, pady=10)
+
+        # Meter frame
+        meter_frame = ttk.Frame(
+            master=settings_frame,
+            bootstyle="dark"
         )
-        save_button.image = save_icon
-        save_button.pack(expand=YES, ipady=10)
+        meter_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+
+        # Meter section one
+        meter_label_one = ttk.Label(
+            master=meter_frame,
+            background="#190831",
+            padding=10,
+            bootstyle="dark"
+        )
+        meter_label_one.pack(side=TOP, fill=X, expand=True, ipady=10)
+
+        self.num_captures_meter = ttk.Meter(
+            master=meter_label_one,
+            metersize=180,
+            stripethickness=4,
+            amountused=0,
+            interactive=True,
+            subtext="Number of Captures",
+            bootstyle="success",
+        )
+        self.num_captures_meter.pack(side=LEFT, fill=X, expand= True, padx=10)
+
+        self.capture_interval_meter = ttk.Meter(
+            master=meter_label_one,
+            metersize=180,
+            stripethickness=4,
+            amountused=0,
+            interactive=True,
+            subtext="Capture Interval",
+            bootstyle="success",
+        )
+        self.capture_interval_meter.pack(side=LEFT, fill=X, expand=True, padx=10)
+
+        self.iso_meter = ttk.Meter(
+            master=meter_label_one,
+            metersize=180,
+            stripethickness=4,
+            amountused=0,
+            amounttotal=360,
+            interactive=True,
+            subtext="ISO",
+            bootstyle="success",
+        )
+        self.iso_meter.pack(side=RIGHT, fill=X, expand=True, padx=10)
+
+        # Meter label two
+        meter_label_two = ttk.Label(
+            master=meter_frame,
+            background="#190831",
+            padding=10,
+            bootstyle="dark"
+        )
+        meter_label_two.pack(side=BOTTOM, fill=X, expand=True, ipady=10)
+
+        self.aperture_meter = ttk.Meter(
+            master=meter_label_two,
+            metersize=180,
+            stripethickness=4,
+            amountused=0,
+            interactive=True,
+            subtext="Contrast",
+            bootstyle="success",
+        )
+        self.aperture_meter.pack(side=LEFT, fill=X, expand=True, padx=10)
+        
+        self.shutter_speed_meter = ttk.Meter(
+            master=meter_label_two,
+            metersize=180,
+            stripethickness=4,
+            amountused=0,
+            amounttotal=360,
+            interactive=True,
+            subtext="Shutter Speed",
+            bootstyle="success",
+        )
+        self.shutter_speed_meter.pack(side=RIGHT, fill=X, expand=True, padx=10)
+
+        self.num_captures_meter.amountusedvar.trace_add('write', self.apply_image_adjustments)
+        self.capture_interval_meter.amountusedvar.trace_add('write', self.apply_image_adjustments)
+        self.iso_meter.amountusedvar.trace_add('write', self.apply_image_adjustments)
+        self.aperture_meter.amountusedvar.trace_add('write', self.apply_image_adjustments)
+        self.shutter_speed_meter.amountusedvar.trace_add('write', self.apply_image_adjustments)
+
+    def capture_preview_image(self):
+        try:
+            with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_file:
+                test_image_path = temp_file.name
+
+            command = [
+                r"c:\Program Files (x86)\digiCamControl\CameraControlCmd.exe",
+                "/capture",
+                "/filename", test_image_path,
+            ]
+            subprocess.run(command, check=True)
+
+            self.image = Image.open(test_image_path)
+            self.update_preview(self.image)
+            
+        except subprocess.CalledProcessError:
+            messagebox.showerror("Error", "Failed to capture the test image. Check your camera connection.")
+        except Exception as e:
+            self.image=None
+            messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+
+    def apply_image_adjustments(self, *args):
+        if self.image is None:
+            return
+        
+        working_image=self.image.copy()
+
+        num_captures_factor = self.num_captures_meter.amountusedvar.get() / 100.0
+        self.settings['num_captures'] = num_captures_factor
+        
+        capture_interval_factor = self.capture_interval_meter.amountusedvar.get() / 100.0
+        self.settings['capture_interval'] = capture_interval_factor
+
+        iso_factor = self.iso_meter.amountusedvar.get() / 100.0
+        self.settings['iso'] = iso_factor
+
+        aperture_factor = self.aperture_meter.amountusedvar.get() / 100.0
+        self.settings['aperture'] = aperture_factor
+
+        shutter_speed_factor = self.shutter_speed_meter.amountusedvar.get() / 100.0
+        self.settings['shutter_speed'] = shutter_speed_factor
+
+        # Update the preview
+        self.update_preview(working_image)
+
+    def update_preview(self, image):
+                # Get canvas dimensions
+        canvas_width = self.canvas.winfo_width()
+        canvas_height = self.canvas.winfo_height()
+        
+        if canvas_width == 1:  # Canvas not yet realized
+            canvas_width = 800  # Default width
+            canvas_height = 600  # Default height
+        
+        # Calculate scaling factor to fit image in canvas
+        img_width, img_height = image.size
+        scale_w = canvas_width / img_width
+        scale_h = canvas_height / img_height
+        scale = min(scale_w, scale_h)
+        
+        # Store current scale for coordinate conversion
+        self.image_scale = scale
+        
+        # Calculate new dimensions
+        new_width = int(img_width * scale)
+        new_height = int(img_height * scale)
+        
+        # Resize image
+        resized_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+        
+        # Store current image for cropping reference
+        self.current_image = resized_image
+        
+        # Update canvas
+        self.tk_image = ImageTk.PhotoImage(resized_image)
+        self.canvas.delete("all")  # Clear previous image
+        
+        # Center the image in canvas
+        x_offset = (canvas_width - new_width) // 2
+        y_offset = (canvas_height - new_height) // 2
+        
+        # Store offset for coordinate conversion
+        self.image_offset = (x_offset, y_offset)
+        
+        # Create image on canvas
+        self.canvas.create_image(x_offset, y_offset, anchor=tk.NW, image=self.tk_image)
 
 def build_capture_settings(parent):
     return CaptureWindow(parent)

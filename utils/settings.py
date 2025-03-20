@@ -4,7 +4,11 @@ config = {
     "capture": {
         "file_naming": "page_{:03d}.jpg",
         "num_captures": 10,
-        "save_location": capture_save_location
+        "save_location": capture_save_location,
+        "capture_interval": 5,  # Time in seconds between captures
+        "iso": 100,            # ISO value
+        "aperture": 5.6,       # Aperture value
+        "shutter_speed": 250 # Shutter speed as string
     },
     "processing": {
         "resize_dimensions": (800, 400),
