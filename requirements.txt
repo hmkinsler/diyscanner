@@ -3,6 +3,7 @@
 # Scanning workflow dependencies
 Pillow==11.0.0
 numpy==1.26.4
+# The camera controls are run using digiCamControl, which can be downloaded from https://www.digicamcontrol.com/
 
 # GUI dependencies
 ttkbootstrap==1.10.1
