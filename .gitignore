@@ -17,8 +17,9 @@
 .DS_Store
 Thumbs.db
 
-# Development files
+# Development files & things not yet ready for release
 dev/
 utils/my_paths.py
 book_imaging_files/
 llm_tools/
+docs/

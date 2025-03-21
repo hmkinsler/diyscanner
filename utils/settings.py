@@ -3,7 +3,7 @@ from utils.my_paths import capture_save_location, processing_save_location, pdf_
 config = {
     "capture": {
         "file_naming": "page_{:03d}.jpg",
-        "num_captures": 10,
+        "num_captures": 1,
         "save_location": capture_save_location,
         "capture_interval": 5,  # Time in seconds between captures
         "iso": 100,            # ISO value

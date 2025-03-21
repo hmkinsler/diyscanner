@@ -19,7 +19,7 @@ def capture_images(config):
         filename = file_naming.format(i)
         output_path = os.path.join(output_dir, filename)
         command = [
-            "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe",
+            "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe", 
             "/filename", output_path,
             "/capture"
         ]
