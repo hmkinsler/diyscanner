@@ -1,4 +1,4 @@
-![Header image with a dark purple background. There is an outline of a pink book to the left. To the right side, the words "DIY BOOK SCANNER" are depicted in pink and blue.](assets\readme_header.png)
+![Header image with a dark purple background. There is an outline of a pink book to the left. To the right side, the words "DIY BOOK SCANNER" are depicted in pink and blue.](assets/readme_header.png)
 
 This software is intended to streamline workflow for book scanning, specifically with the [Archivist DIY Book Scanner.](https://diybookscanner.org/archivist/) More specifically, it offers a front-end GUI where users can control camera and image processing settings and preview their images for digitization of printed materials.
 
