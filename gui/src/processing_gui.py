@@ -293,7 +293,7 @@ class ProcessingWindow:
         
         # Apply crop to original image
         cropped_image = self.image.crop((img_x1, img_y1, img_x2, img_y2))
-        
+        0
         # Update the preview with cropped image
         self.image = cropped_image  # Update original image
         self.update_preview(cropped_image)
