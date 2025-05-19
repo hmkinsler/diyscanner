@@ -1,4 +1,4 @@
-from src.capture import capture_images
+from src.capture import capture_left_page, capture_right_page
 from src.processing import process_images
 from scanning.src.pdf_generator import create_pdf_with_ocr
 
@@ -11,7 +11,8 @@ def start_workflow():
 
     # Step 1: Capture Images
     print("Capturing images...")
-    capture_images(config)
+    capture_left_page(config)
+    capture_right_page(config)
 
     # Step 2: Process Images
     print("Processing images...")

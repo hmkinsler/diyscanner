@@ -1,10 +1,10 @@
 import os
 import subprocess
 import time
-from utils.my_paths import cam1, cam2
+from utils.settings import config
 
-left_pg_cam = cam1
-right_pg_cam = cam2
+left_pg_cam = "D70"
+right_pg_cam = "D3500"
 
 def capture_left_page(config):
     capture_config = config["capture left"]
@@ -24,17 +24,9 @@ def capture_left_page(config):
         output_path = os.path.join(output_dir, filename)
         command = [
             "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe",
-            "/setcamera", left_pg_cam,
             "/filename", output_path,
             "/capture"
         ]
-        if iso:
-            command.extend(["/iso", str(iso)])
-        if aperture:
-            command.extend(["/aperture", str(aperture)])
-        if shutter_speed:
-            command.extend(["/shutterspeed", str(shutter_speed)])
-
         subprocess.run(command, check=True)
         print(f"Left page image captured: {output_path}")
 
@@ -54,12 +46,11 @@ def capture_right_page(config):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    for i in range(2, num_captures + 1):
-        filename = right_pg_naming.format(i)
+    for i in range(1, num_captures + 1):
+        filename = right_pg_naming.format(i + 1)
         output_path = os.path.join(output_dir, filename)
         command = [
-            "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe", 
-            "/set camera", right_pg_cam,
+            "C:\\Program Files (x86)\\digiCamControl\\CameraControlCmd.exe",
             "/filename", output_path,
             "/capture"
         ]
@@ -75,3 +66,6 @@ def capture_right_page(config):
 
         if i < num_captures:
             time.sleep(interval)  # Wait before the next capture
+
+capture_left_page(config)
+capture_right_page(config)
