@@ -1,7 +1,8 @@
 ---
 created: 2025-09-03
 ---
-# Topics Covered
+# Part One Notes
+## Topics Covered
 - Understanding commands and how to print (i.e. classic "Hello World" intro)
 - Chronology of commands
 	- This will be important when it comes to writing loops and conditionals later and thinking about the timing of things written into a script

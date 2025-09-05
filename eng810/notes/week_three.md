@@ -16,4 +16,4 @@ created: 2025-09-03
 [Python Programming MOOC 2023](https://programming-23.mooc.fi/)
 
 ## Introduction to Programming
-### Part One: 
+[Part One](/eng810/helsinki_mooc/md_notes/part_one.md)
