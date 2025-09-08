@@ -21,3 +21,4 @@ created: 2025-09-03
 	  test out
 	- name = input("what is your name?")
 - Concatenation
+- Conditional statements
