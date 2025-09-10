@@ -12,8 +12,30 @@ created: 2025-09-03
 
 # Beginning MOOC coursework
 
-## Helsinki Course
+## Helsinki Course: Introduction to Programming with Python
 [Python Programming MOOC 2023](https://programming-23.mooc.fi/)
 
-## Introduction to Programming
-[Part One](/eng810/helsinki_mooc/md_notes/part_one.md)
+## Part One
+- [Part One Lecture](https://youtu.be/0UrIgF5qKFM)
+- [Part One Slides](/eng810/helsinki_mooc/written_notes/part_one.md)
+
+### Topics Covered
+- Understanding commands and how to print (i.e. classic "Hello World" intro)
+- Chronology of commands
+	- This will be important when it comes to writing loops and conditionals later and thinking about the timing of things written into a script
+- Basic syntax
+- Data types
+	- Strings
+	- Integers
+	- Floats
+- Variables & how to declare them
+- Operands and operators
+	- Floor division //
+- Various commands
+	- print("test ", end)
+	  print("out", end)
+	  
+	  test out
+	- name = input("what is your name?")
+- Concatenation
+- Conditional statements

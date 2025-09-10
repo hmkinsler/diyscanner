@@ -1,8 +1,24 @@
 ---
-created: 2025-09-08
+title: Week Four Documentation Notes
+course: ENG 810
+semester: Fall 2025
+tags: #documentation
+created: 2025-09-10
 ---
-# Part Two Notes
-## Topics Covered
+
+# Rapsberry Pi 
+
+# MOOC coursework
+
+## Helsinki Course: Introduction to Programming with Python
+[Python Programming MOOC 2023](https://programming-23.mooc.fi/)
+
+## Part Two
+- [Part Two Lecture](https://youtu.be/xjBP3awP-I8)
+- [Part Two Python Notes](/eng810/helsinki_mooc/py_notes/lecture_two.py)
+- [Part Two Slides](/eng810/helsinki_mooc/written_notes/part_two.md)
+
+### Topics Covered
 - Programming terminology
 	- Statement: A statement is a part of the program which executes something. It often, but not always, refers to a single command.
     - Block: A block is a group of consecutive statements that are at the same level in the structure of the program.
@@ -16,3 +32,16 @@ created: 2025-09-08
 - Python comparison operators can also be used on strings. String a is smaller than string b if it comes alphabetically before b.
 	- Does require that the characters are all of the same case
 - Logical operators (i.e. and / or)
+- Conditionals and nested conditionals (including if, elif, & else)
+- Simple loops
+- Debugging print statements
+
+## Part Three
+- [Part Three Lecture](https://youtu.be/G0zdNWCm8h8)
+- [Part Three Python Notes](/eng810/helsinki_mooc/py_notes/lecture_three.py)
+- [Part Three Slides](/eng810/helsinki_mooc/written_notes/part_three.excalidraw)
+
+## Part Four
+- [Part Four Lecture](https://youtu.be/U7MFzDabDqg)
+- [Part Four Python Notes](/eng810/helsinki_mooc/py_notes/lecture_four.py)
+- [Part Four Slides](/eng810/helsinki_mooc/written_notes/part_four.excalidraw)
