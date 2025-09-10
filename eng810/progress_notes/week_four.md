@@ -41,7 +41,16 @@ created: 2025-09-10
 - [Part Three Python Notes](/eng810/helsinki_mooc/py_notes/lecture_three.py)
 - [Part Three Slides](/eng810/helsinki_mooc/written_notes/part_three.excalidraw)
 
+### Topics Covered
+- Functions and parameters
+    - Functions are defined in this way:
+
+    def function_name(parameter list):
+        function code
+
 ## Part Four
 - [Part Four Lecture](https://youtu.be/U7MFzDabDqg)
 - [Part Four Python Notes](/eng810/helsinki_mooc/py_notes/lecture_four.py)
 - [Part Four Slides](/eng810/helsinki_mooc/written_notes/part_four.excalidraw)
+
+### Topics Covered
