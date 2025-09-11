@@ -47,6 +47,24 @@ created: 2025-09-10
 
     def function_name(parameter list):
         function code
+- Loops with conditions
+
+    ![alt text](../images/conditional_loops.png)
+
+- Initialization refers to setting the initial value(s) of the variable(s) used within the condition of the loop; these are often called the iteration or iterator variables and they are performed before the loop is first entered
+- The condition defines for how long the loop is set to be executed and is set out at the very beginning of the loop
+- Updating variables means that within each repetition of the loop, the variables involved in the condition must be updated so that each iteration brings the loop one step closer to its conclusion
+    ![alt text](../images/initialization_condition_updatedvariables.png)
+- Typical errors in constructing loops:
+    - Forgetting to define how the variables will update to make progress toward the condition
+- You can test looped code that would normally ask for input from a user by first "hard-coding" the input value and then using the input command later
+- [Python Tutor](https://pythontutor.com/) site has a [code visualizer](https://pythontutor.com/visualize.html#mode=edit) that can be used to work through debugging issues with your code line by line
+- String operations
+    - Concatenation with the + operator
+    - * operator can be used with a string when the other operand is an integer
+    - len() returns number of characters in a string, which is always an integer value
+    - As strings are essentially sequences of characters, any single character can also be retrieved -- the operator [] finds the character with the index specified within the brackets
+    - You can also use negative indexing to access characters counting from the end of the string, with the last character in the string being indexed at -1
 
 ## Part Four
 - [Part Four Lecture](https://youtu.be/U7MFzDabDqg)
