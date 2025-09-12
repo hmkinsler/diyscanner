@@ -8,7 +8,7 @@ created: 2025-09-10
 
 # Rapsberry Pi 
 - Ran into some issues in terms of the kinds of display connectors I had access to for the Raspberry Pi 4, but I did successfully get the Raspberry Pi OS on a Raspberry Pi 3B from Canakit and was able to boot it, connect some peripherals (i.e. keyboard and mouse) and set up the basic OS settings
-	[](/eng810/images/pi_boot.jpg)
+	[Pi Boot](/eng810/images/pi_boot.jpg)
  
 # MOOC coursework
 
