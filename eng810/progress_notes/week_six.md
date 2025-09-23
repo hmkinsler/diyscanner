@@ -65,6 +65,28 @@ created: 2025-09-10
     - len() returns number of characters in a string, which is always an integer value
     - As strings are essentially sequences of characters, any single character can also be retrieved -- the operator [] finds the character with the index specified within the brackets
     - You can also use negative indexing to access characters counting from the end of the string, with the last character in the string being indexed at -1
+    - A substring of a string is a sequence of characters that forms a part of the string. For example, the string example contains the substrings exam, amp and ple, among others. In Python programming, the process of selecting substrings is usually called slicing, and a substring is often referred to as a slice of the string. The two terms can often be used interchangeably.
+    
+        If you know the beginning and end indexes of the slice you wish to extract, you can do so with the notation [a:b]. This means the slice begins at the index a and ends at the last character before index b - that is, including the first, but excluding the last.
+    - Half open intervals
+        - In Python string processing the interval [a:b] is half open, which in this case means that the character at the beginning index a is included in the interval, but the character at the end index b is left out. Why is that?
+        
+            There is no profound reason for this feature. Rather it is a convention inherited from other programming languages.
+        
+            Half open intervals may feel unintuitive, but in practice they do have some advantages. For example, you can easily calculate the length of a slice with b-a. On the other hand, you must always remember that the character at the end index b will not be included in the slice.
+    - The in operator can tell us if a string contains a particular substring. The Boolean expression a in b is true, if b contains the substring a.
+    - The operator in returns a Boolean value, so it will only tell us if a substring exists in a string, but it will not be useful in finding out where exactly it is. Instead, the Python string method find can be used for this purpose. It takes the substring searched for as an argument, and returns either the first index where it is found, or -1 if the substring is not found within the string.
+- Methods
+    - Methods work quite similarly to the functions covered in the previous part. What distinguishes them from functions is that methods are always attached to the object they are called on. The object is the entity named before the method in the method call. In the case of find the object is the string where the method looks for the substring it has as an argument.
+- The break and continue commands
+![](/eng810/images/continue.png)
+- Nested loops
+    - When there are nested loops, break and continue commands only affect the innermost loop which they are a part of. 
+- Functions
+    - Before a function can be used, it must be defined. Any function definition begins with the keyword def, short for define. Then comes the name of the function, followed by parentheses and a colon character. This is called the header of the function. After this, indented just like while and if blocks, comes the body of the function.
+    - Main functions
+    - Functions often take one or more arguments, which may affect what the function does. It was mentioned before that the terms argument and parameter are often used to refer to the same thing. The distinction is that while argument is used with the data passed to the function when the function is called, inside the function the arguments are assigned to variables called parameters. So, approximately, when the function is called, we call the passed bits of data arguments, but when we are defining the function, we call them parameters.
+    - It is possible to assign new variables within function definitions. The function can also see variables assigned outside it, in the main function. Such variables are called global variables. Using global variables from within functions is usually a bad idea. Among other issues, doing so may cause bugs which are difficult to trace.
 
 ## Part Four
 - [Part Four Lecture](https://youtu.be/U7MFzDabDqg)
