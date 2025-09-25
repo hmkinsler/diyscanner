@@ -96,3 +96,50 @@ created: 2025-09-10
 - [Part Four Slides](/eng810/helsinki_mooc/written_notes/part_four.excalidraw)
 
 ### Topics Covered
+- IDEs and Visual Studio Code
+- Running code with IDEs and Python interpreter
+- Built-in debugger
+- Parameters vs. arguments
+    - A function can take one or more arguments. When the function is called, the arguments are assigned to variables, which are defined in the function definition. These variables are called parameters, and they are listed inside the parentheses after the function name.
+    - The terminology around data passed to functions can feel confusing. To make matters worse, some sources refer to what we have called parameters and arguments as formal and actual parameters. Other sources call them formal and actual arguments. The Python documentation specifies only the terms argument and parameter, so that is what we will use as well.
+- Function calls within function calls
+- Return values
+    - Functions can also return values. For instance, the built-in Python function input returns an input string typed in by the user. The value returned by a function can be stored in a variable.
+    - The functions you define yourself can also return values. To do this you need the return statement.
+    - The return value of a function is a value just like any other. It is not necessary to store it in a variable in order give it as an argument to the print command.
+- Type hinting
+- Lists
+    - A Python list is a collection of values which is accessed via a single variable name. The contents of the list are written within square brackets. The values contained in the list are called items, or sometimes elements.
+    - Indexing lists
+    - List methods
+        - append
+        - insert
+        - pop or remove
+        - sort
+        - max, min, and sum
+    - Using lists with functions
+- Iteration and the for loop
+    - While loops can work, but they are a rather complicated way of going through a list, as you have to use a helper variable index to remember which item in the list you're at. The for loop can handle this more efficiently.
+    - The idea is that the for loop takes the items in the collection one by one and performs the same actions on each. The programmer does not have to worry about which item is being handled when.
+
+![for loop diagram](/eng810/images/forloop.png)
+
+- The for loop takes an item in the collection, assigns it to the variable, processes the block of code, and moves on to the next item. When all items in the collection have been processed, execution of the program continues from the line after the loop.
+- The range function
+    - Often you know how many times you want to repeat a certain bit of code. You might, for example, wish to go through all the numbers between 1 and 100. The range function plugged into a for loop will do this for you.
+    - There are a few different ways to call the range function. The simplest way is to give the function just one argument, which signifies the end-point of the range. The end-point itself is excluded, just like with string slices. In other words, the function call range(n) provides a loop with a range from 0 to n-1
+    - The function range returns a range object, which in many ways behaves like a list, but isn't actually one. If you try printing out the value the function returns, you will only see a description of a range object
+    - The function list will convert a range into a list. The list will contain all the values that are in the range. 
+- Print statement formatting
+    - Use of + operator for string concatenation. This method will not work if any of the segments are not strings.
+    - The second method is considering each segment of the argument as a separate argument, and splitting them up with commas.
+    - The third method to prepare strings is f-strings. These are incredibly versatile when used in conjunction with format specifiers.
+- Global variables within functions
+    - We know it is possible to assign new variables within function definitions, but the function can also see variables assigned outside it, in the main function. Such variables are called global variables.
+    - Using global variables from within functions is usually a bad idea. Among other issues, doing so may cause bugs which are difficult to trace.
+- Strings and lists have a lot in common, especially in the way they behave with different operators. The main difference is that strings are immutable. That means they cannot be changed.
+- Count method
+    - The method count counts the number of times the specified item or substring occurs in the target. The method works similarly with both strings and lists.
+    - The method will not count overlapping occurrences. For example, in the string aaaa the method counts only two occurrences of the substring aa, even though there would actually be three if overlapping occurrences were allowed.
+- Replace method
+    - The method replace creates a new string, where a specified substring is replaced with another string
