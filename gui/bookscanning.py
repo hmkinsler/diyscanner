@@ -180,8 +180,8 @@ if __name__ == "__main__":
         title="DIY Book Scanner", 
         themename="vapor", 
         resizable=(False, False),
-        minsize=(1500,800),
-        maxsize=(1500,800),
+        minsize=(2000,1300),
+        maxsize=(2000,1300),
     )
     
     icon_img = ImageTk.PhotoImage(Image.open("assets/app_window_icon.png"))
